@@ -53,7 +53,7 @@ class RandomWordsState extends State<RandomWords> {
       pair.asPascalCase,
       style: _biggerFont,
     ),
-    trailing: Icon(   // Add the lines from here... 
+    trailing: Icon(   // Add the lines from here... kontol
       alreadySaved ? Icons.favorite :  Icons.favorite_border ,
       color: alreadySaved ? Colors.purple : null,
       ),
