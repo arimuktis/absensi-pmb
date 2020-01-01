@@ -1,77 +1,91 @@
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(App());
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget{
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return MaterialApp(
-      title: 'Startup Name Generator',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.yellow,
-        accentColor: Colors.purple,
-      ),            
-      home: RandomWords(),
-    );
-  }
-}
-
-class RandomWordsState extends State<RandomWords> {
-  @override
-  final _suggestions = <WordPair>[];
-  final Set<WordPair> _saved = Set<WordPair>();   // Icon
-  final _biggerFont = const TextStyle(fontSize: 18.0);
-
-  Widget build(BuildContext context) {
-    return Scaffold(
-    appBar: AppBar(
-      title: Text('Startup Name Generator'),
-    ),
-    body: _buildSuggestions(),
-    );
-  }
-
-  Widget _buildSuggestions() {
-  return ListView.builder(
-      padding: const EdgeInsets.all(16.0),
-      itemBuilder: /*1*/ (context, i) {
-        if (i.isOdd) return Divider(); /*2*/
-
-        final index = i ~/ 2; /*3*/
-        if (index >= _suggestions.length) {
-          _suggestions.addAll(generateWordPairs().take(10)); /*4*/
-        }
-        return _buildRow(_suggestions[index]);
-      });
-  }
-
-  Widget _buildRow(WordPair pair) {
-  final bool alreadySaved = _saved.contains(pair); 
-  return ListTile(
-    title: Text(
-      pair.asPascalCase,
-      style: _biggerFont,
-    ),
-    trailing: Icon(   // Add the lines from here...
-      alreadySaved ? Icons.favorite :  Icons.favorite_border ,
-      color: alreadySaved ? Colors.purple : null,
+        primaryColor: Color(0xFFFB415B),
+        
+        fontFamily: "Ubuntu"
       ),
-      onTap: () {      // Add 9 lines from here...
-      setState(() {
-        if (alreadySaved) {
-          _saved.remove(pair);
-        } else { 
-          _saved.add(pair); 
-        } 
-      });
-    }, 
+      home: LoginPage(),
     );
   }
 }
 
-class RandomWords extends StatefulWidget {
+class LoginPage extends StatefulWidget{
   @override
-  RandomWordsState createState() => RandomWordsState();
+  _LoginPageState createState() => _LoginPageState();
+  
 }
 
+class _LoginPageState extends State<LoginPage>{
+
+  bool _isHidden = true;
+
+  void _toggleVisibility(){
+    setState(() {
+      _isHidden = !_isHidden;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      resizeToAvoidBottomPadding: false,
+      body: Container(
+        color: Colors.yellow,
+        padding: EdgeInsets.only(top: 100.0, right: 20.0, left: 20.0, bottom: 20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            
+            new Image.asset(
+              'assets/LaunchImage@2x.png',
+              width: 180.0,
+              height: 30.0,
+              fit: BoxFit.fill,
+            ),
+            
+            SizedBox(height: 50.0),
+            buildButtonContainer(),
+            SizedBox(height: 10.0,),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildButtonContainer(){
+    return Container(
+      height: 60.0,
+      width: MediaQuery.of(context).size.width,
+      
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5.0),
+        gradient: LinearGradient(
+          colors: [
+            Colors.black,
+            Colors.black
+          ],
+          begin: Alignment.centerRight,
+          end: Alignment.centerLeft
+        ),
+      ),
+      child: Center(
+        child: Text(
+          "LOGIN",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18.0,
+          ),
+        ),
+      ),
+    );
+
+  }
+}
